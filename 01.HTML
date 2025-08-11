@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>極簡 To-Do（單檔版）</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
+      background: #fafafa;
+      color: #1f2937;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 12px;
+      max-width: 480px;
+      margin: auto;
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+    }
+    .row { display: flex; gap: 8px; }
+    button {
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+    button.accent { background: #2563eb; color: #fff; }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0 0;
+      display: grid;
+      gap: 8px;
+    }
+    li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      background: #fff;
+    }
+    .small { font-size: 12px; color: #6b7280; }
+    kbd {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      border-radius: 6px;
+      padding: 1px 6px;
+      font-family: "Courier New", monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="todo1">
+    <div class="row">
+      <input id="inp" placeholder="今天要完成什麼？" style="flex:1" />
+      <button class="accent" id="add">新增</button>
+    </div>
+    <ul id="list"></ul>
+    <div class="small">可直接點文字編輯；<kbd>Enter</kbd> 新增。</div>
+  </div>
+
+  <script>
+    (() => {
+      const root = document.querySelector('#todo1');
+      if (!root) return;
+
+      const $ = (q) => root.querySelector(q);
+      const KEY = 'todo_demo';
+      const inp = $('#inp');
+      const add = $('#add');
+      const list = $('#list');
+
+      let items = [];
+      try { items = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { items = []; }
+
+      function save(){ localStorage.setItem(KEY, JSON.stringify(items)); }
+
+      function render(){
+        list.innerHTML = items.map((t,i)=>`
+          <li data-i="${i}">
+            <input type="checkbox" ${t.done ? 'checked' : ''}>
+            <span contenteditable style="flex:1;${t.done ? 'text-decoration:line-through;opacity:.6' : ''}">${t.text}</span>
+            <button class="del">刪</button>
+          </li>`).join('');
+      }
+
+      add.addEventListener('click', () => {
+        const v = inp.value.trim();
+        if(!v) return;
+        items.push({ text:v, done:false });
+        inp.value = '';
+        save(); render();
+      });
+
+      inp.addEventListener('keydown', e=>{
+        if(e.key === 'Enter') add.click();
+      });
+
+      list.addEventListener('click', e=>{
+        const li = e.target.closest('li'); if(!li) return;
+        const i = +li.dataset.i;
+        if(e.target.type === 'checkbox'){ items[i].done = e.target.checked; }
+        else if(e.target.classList.contains('del')){ items.splice(i,1); }
+        save(); render();
+      });
+
+      list.addEventListener('input', e=>{
+        const li = e.target.closest('li'); if(!li || e.target.tagName !== 'SPAN') return;
+        items[+li.dataset.i].text = e.target.textContent.trim();
+        save();
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>
