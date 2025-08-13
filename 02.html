@@ -1,0 +1,112 @@
+<form
+action="https://docs.google.com/forms/d/e/1FAIpQLSfG-NPTG0wwJkfTat7-C5AMMxq5S6Lrci6FQKK8qnxDcwpCOQ/formResponse"
+method="POST" target="_blank">
+  <label>姓名:</label>
+  <input name="entry.83859488" type="text" required>
+
+  <label>年齡:</label>
+  <input name="entry.237756778" type="number" min="0" required>
+
+  <label>電話:</label>
+  <input name="entry.403475364" type="tel" required>
+
+  <label>居住區域:</label>
+  <select name="entry.1091802653" required>
+      <option value="">請選擇</option>
+      <option value="台北市">台北市</option>
+      <option value="新北市">新北市</option>
+      <option value="宜蘭">宜蘭</option>
+      <option value="花蓮">花蓮</option>
+      <option value="台中">台中</option>
+      <option value="台南">台南</option>
+      <option value="高雄">高雄</option>
+  </select>
+
+  <button type="submit">送出</button>
+</form>
+
+<style>
+body {
+    background: linear-gradient(135deg, #a2d2ff, #caffbf);
+    font-family: "Microsoft JhengHei", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+/* 表單容器 */
+form {
+    max-width: 400px;
+    width: 90%;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* 標籤 */
+label {
+    display: block;
+    margin: 15px 0 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 輸入框與下拉選單 */
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: 0.3s ease;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: slideIn 0.5s forwards;
+}
+
+input:nth-of-type(1) { animation-delay: 0.2s; }
+input:nth-of-type(2) { animation-delay: 0.4s; }
+input:nth-of-type(3) { animation-delay: 0.6s; }
+select { animation-delay: 0.8s; }
+
+input:focus, select:focus {
+    border-color: #00aaff;
+    box-shadow: 0 0 6px rgba(0, 170, 255, 0.4);
+    outline: none;
+}
+
+/* 按鈕 */
+button {
+    margin-top: 20px;
+    padding: 12px;
+    width: 100%;
+    background: linear-gradient(45deg, #00aaff, #80d0ff);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    animation-delay: 1s;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: slideIn 0.5s forwards;
+}
+
+button:hover {
+    background: linear-gradient(45deg, #0090dd, #5bbce6);
+}
+
+/* 動畫 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
